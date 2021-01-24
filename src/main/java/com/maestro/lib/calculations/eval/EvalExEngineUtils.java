@@ -1,5 +1,8 @@
 package com.maestro.lib.calculations.eval;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.MathContext;
@@ -7,7 +10,7 @@ import java.math.RoundingMode;
 import java.util.*;
 
 /**
- * EvalEx - Java CExpressionUtl Evaluator
+ * EvalEx - Java Expression Evaluator
  *
  * EvalEx is a handy expression evaluator for Java, that allows to evaluate simple mathematical and boolean expressions.
  * Key Features:
@@ -76,6 +79,8 @@ import java.util.*;
  * FALSE - The value zero
  */
 public class EvalExEngineUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(EvalExEngineUtils.class);
+
     /**
      * Definition of PI as a constant, can be used in expressions as variable.
      */
@@ -123,7 +128,7 @@ public class EvalExEngineUtils {
     private final char minusSign = '-';
 
       /**
-     * CExpressionUtl tokenizer that allows to iterate over a {@link String}
+     * Custom Tokenizer that allows to iterate over a {@link String}
      * expression token by token. Blank characters will be skipped.
      */
     private class EvalExTokenizer implements Iterator<String> {
@@ -560,6 +565,7 @@ public class EvalExEngineUtils {
      *         member.
      */
     private List<String> shuntingYard(String expression) {
+        LOGGER.info("shutingYard: {}", expression);
         List<String> outputQueue = new ArrayList<>();
         Stack<String> stack = new Stack<>();
 

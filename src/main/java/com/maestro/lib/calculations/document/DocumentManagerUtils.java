@@ -1,6 +1,5 @@
 package com.maestro.lib.calculations.document;
 
-import com.maestro.lib.calculations.ConsoleLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
