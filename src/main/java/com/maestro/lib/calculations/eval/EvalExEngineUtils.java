@@ -127,12 +127,11 @@ public class EvalExEngineUtils {
      */
     private final char minusSign = '-';
 
-      /**
+     /**
      * Custom Tokenizer that allows to iterate over a {@link String}
      * expression token by token. Blank characters will be skipped.
      */
     private class EvalExTokenizer implements Iterator<String> {
-
         /**
          * Actual position in expression string.
          */

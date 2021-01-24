@@ -7,7 +7,16 @@ import lombok.Getter;
 @Data
 @Getter
 @AllArgsConstructor
+/**
+ * Class describing a validation error
+ */
 public class ValidateError {
-    private int status; // Validate Status: 1 - Ok, 0 - Bad validation
+    /**
+     * Status of validation: 1 if all is Ok, else 0
+     */
+    private int status;
+    /**
+     * Message with error if status != 0
+     */
     private String message; // Validate message if status == 0
 }

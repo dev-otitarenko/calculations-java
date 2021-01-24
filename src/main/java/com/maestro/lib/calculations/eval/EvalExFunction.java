@@ -21,10 +21,8 @@ public abstract class EvalExFunction {
     /**
      * Creates a new function with given name and parameter count.
      *
-     * @param name
-     *            The name of the function.
-     * @param numParams
-     *            The number of parameters for this function.
+     * @param name The name of the function.
+     * @param numParams The number of parameters for this function.
      */
     public EvalExFunction(String name, int numParams) {
         this.name = name.toUpperCase();

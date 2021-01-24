@@ -9,9 +9,24 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+/**
+ * Class describing row in a data set
+ */
 public class DocumentVar {
-    private String field; // field name
-    private int tabn; // table number
-    private int nrow; // row number
-    private Object val; // value
+    /**
+     * A field name
+     */
+    private String field;
+    /**
+     * Table number
+     */
+    private int tabn;
+    /**
+     * Row number
+     */
+    private int nrow;
+    /**
+     * Value
+     */
+    private Object val;
 }
