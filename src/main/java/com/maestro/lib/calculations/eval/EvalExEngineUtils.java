@@ -44,7 +44,7 @@ import java.util.*;
  *   <> Less than
  *   <= Less than or equal to
  *   >  Greater than
- *   >;= Greater than or equal to
+ *   >= Greater than or equal to
  *   && - Boolean and
  *   || - Boolean or
  * P.S. Boolean operators result always in a BigDecimal value of 1 or 0 (zero). Any non-zero value is treated as a _true_ value. Boolean _not_ is implemented by a function.
@@ -251,37 +251,31 @@ public class EvalExEngineUtils {
         this.expression = expression;
             // Adding Operations
         addOperator(new EvalExOperator("+", 20, true) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 return v1.add(v2, mc);
             }
         });
         addOperator(new EvalExOperator("-", 20, true) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 return v1.subtract(v2, mc);
             }
         });
         addOperator(new EvalExOperator("*", 30, true) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 return v1.multiply(v2, mc);
             }
         });
         addOperator(new EvalExOperator("/", 30, true) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 return v1.divide(v2, mc);
             }
         });
         addOperator(new EvalExOperator("%", 30, true) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 return v1.remainder(v2, mc);
             }
         });
         addOperator(new EvalExOperator("^", 40, false) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 /*-
                  * http://stackoverflow.com/questions/3579779/how-to-do-a-fractional-power-on-bigdecimal-in-java
@@ -296,14 +290,12 @@ public class EvalExEngineUtils {
 
                 BigDecimal result = intPow.multiply(doublePow, mc);
                 if (signOf2 == -1) {
-                    result = BigDecimal.ONE.divide(result, mc.getPrecision(),
-                            RoundingMode.HALF_UP);
+                    result = BigDecimal.ONE.divide(result, mc.getPrecision(), RoundingMode.HALF_UP);
                 }
                 return result;
             }
         });
         addOperator(new EvalExOperator("&&", 4, false) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 boolean b1 = !v1.equals(BigDecimal.ZERO);
                 boolean b2 = !v2.equals(BigDecimal.ZERO);
@@ -311,7 +303,6 @@ public class EvalExEngineUtils {
             }
         });
         addOperator(new EvalExOperator("||", 2, false) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 boolean b1 = !v1.equals(BigDecimal.ZERO);
                 boolean b2 = !v2.equals(BigDecimal.ZERO);
@@ -319,79 +310,67 @@ public class EvalExEngineUtils {
             }
         });
         addOperator(new EvalExOperator(">", 10, false) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 return v1.compareTo(v2) == 1 ? BigDecimal.ONE : BigDecimal.ZERO;
             }
         });
         addOperator(new EvalExOperator(">=", 10, false) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 return v1.compareTo(v2) >= 0 ? BigDecimal.ONE : BigDecimal.ZERO;
             }
         });
         addOperator(new EvalExOperator("<", 10, false) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 return v1.compareTo(v2) == -1 ? BigDecimal.ONE
                         : BigDecimal.ZERO;
             }
         });
         addOperator(new EvalExOperator("<=", 10, false) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 return v1.compareTo(v2) <= 0 ? BigDecimal.ONE : BigDecimal.ZERO;
             }
         });
         addOperator(new EvalExOperator("=", 7, false) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 return v1.compareTo(v2) == 0 ? BigDecimal.ONE : BigDecimal.ZERO;
             }
         });
         addOperator(new EvalExOperator("==", 7, false) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 return operators.get("=").eval(v1, v2);
             }
         });
 
         addOperator(new EvalExOperator("!=", 7, false) {
-            @Override
-            public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
+             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 return v1.compareTo(v2) != 0 ? BigDecimal.ONE : BigDecimal.ZERO;
             }
         });
         addOperator(new EvalExOperator("<>", 7, false) {
-            @Override
             public BigDecimal eval(BigDecimal v1, BigDecimal v2) {
                 return operators.get("!=").eval(v1, v2);
             }
         });
             // Adding functions
         addFunction(new EvalExFunction("NOT", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 boolean zero = parameters.get(0).compareTo(BigDecimal.ZERO) == 0;
                 return zero ? BigDecimal.ONE : BigDecimal.ZERO;
             }
         });
         addFunction(new EvalExFunction("IF", 3) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 boolean isTrue = !parameters.get(0).equals(BigDecimal.ZERO);
                 return isTrue ? parameters.get(1) : parameters.get(2);
             }
         });
         addFunction(new EvalExFunction("RANDOM", 0) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 double d = Math.random();
                 return new BigDecimal(d, mc);
             }
         });
         addFunction(new EvalExFunction("SIN", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 double d = Math.sin(Math.toRadians(parameters.get(0)
                         .doubleValue()));
@@ -399,7 +378,6 @@ public class EvalExEngineUtils {
             }
         });
         addFunction(new EvalExFunction("COS", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 double d = Math.cos(Math.toRadians(parameters.get(0)
                         .doubleValue()));
@@ -407,7 +385,6 @@ public class EvalExEngineUtils {
             }
         });
         addFunction(new EvalExFunction("TAN", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 double d = Math.tan(Math.toRadians(parameters.get(0)
                         .doubleValue()));
@@ -415,42 +392,36 @@ public class EvalExEngineUtils {
             }
         });
         addFunction(new EvalExFunction("SINH", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 double d = Math.sinh(parameters.get(0).doubleValue());
                 return new BigDecimal(d, mc);
             }
         });
         addFunction(new EvalExFunction("COSH", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 double d = Math.cosh(parameters.get(0).doubleValue());
                 return new BigDecimal(d, mc);
             }
         });
         addFunction(new EvalExFunction("TANH", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 double d = Math.tanh(parameters.get(0).doubleValue());
                 return new BigDecimal(d, mc);
             }
         });
         addFunction(new EvalExFunction("RAD", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 double d = Math.toRadians(parameters.get(0).doubleValue());
                 return new BigDecimal(d, mc);
             }
         });
         addFunction(new EvalExFunction("DEG", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 double d = Math.toDegrees(parameters.get(0).doubleValue());
                 return new BigDecimal(d, mc);
             }
         });
         addFunction(new EvalExFunction("MAX", 2) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 BigDecimal v1 = parameters.get(0);
                 BigDecimal v2 = parameters.get(1);
@@ -458,7 +429,6 @@ public class EvalExEngineUtils {
             }
         });
         addFunction(new EvalExFunction("MIN", 2) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 BigDecimal v1 = parameters.get(0);
                 BigDecimal v2 = parameters.get(1);
@@ -466,20 +436,17 @@ public class EvalExEngineUtils {
             }
         });
         addFunction(new EvalExFunction("ABS", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 return parameters.get(0).abs(mc);
             }
         });
         addFunction(new EvalExFunction("LOG", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 double d = Math.log(parameters.get(0).doubleValue());
                 return new BigDecimal(d, mc);
             }
         });
         addFunction(new EvalExFunction("ROUND", 2) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 BigDecimal toRound = parameters.get(0);
                 int precision = parameters.get(1).intValue();
@@ -487,21 +454,18 @@ public class EvalExEngineUtils {
             }
         });
         addFunction(new EvalExFunction("FLOOR", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 BigDecimal toRound = parameters.get(0);
                 return toRound.setScale(0, RoundingMode.FLOOR);
             }
         });
         addFunction(new EvalExFunction("CEILING", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 BigDecimal toRound = parameters.get(0);
                 return toRound.setScale(0, RoundingMode.CEILING);
             }
         });
         addFunction(new EvalExFunction("SQRT", 1) {
-            @Override
             public BigDecimal eval(List<BigDecimal> parameters) {
                 /*
                  * From The Java Programmers Guide To numerical Computing
@@ -548,8 +512,7 @@ public class EvalExEngineUtils {
         if (st.charAt(0) == minusSign && st.length() == 1)
             return false;
         for (char ch : st.toCharArray()) {
-            if (!Character.isDigit(ch) && ch != minusSign
-                    && ch != decimalSeparator)
+            if (!Character.isDigit(ch) && ch != minusSign && ch != decimalSeparator)
                 return false;
         }
         return true;
@@ -574,6 +537,7 @@ public class EvalExEngineUtils {
         String previousToken = null;
         while (tokenizer.hasNext()) {
             String token = tokenizer.next();
+            LOGGER.info("token: {}", token);
             if (isNumber(token)) {
                 outputQueue.add(token);
             } else if (variables.containsKey(token)) {
@@ -588,8 +552,7 @@ public class EvalExEngineUtils {
                     outputQueue.add(stack.pop());
                 }
                 if (stack.isEmpty()) {
-                    throw new EvalExException("Parse error for function '"
-                            + lastFunction + "'");
+                    throw new EvalExException("Parse error for function '"+ lastFunction + "'");
                 }
             } else if (operators.containsKey(token)) {
                 EvalExOperator o1 = operators.get(token);

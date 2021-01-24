@@ -1,10 +1,7 @@
-package com.maestro.lib.calculations;
+package com.maestro.lib.calculations.eval;
 
-import com.maestro.lib.calculations.eval.EvalExEngineUtils;
-import com.maestro.lib.calculations.eval.EvalExOperator;
 import org.junit.jupiter.api.Test;
 
-import com.maestro.lib.calculations.eval.EvalExFunction;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -90,7 +87,7 @@ class EvalExEngineUtilsTest {
 
     @Test
     public void testCustomFunction() {
-        EvalExEngineUtils e = new EvalExEngineUtils("2 * average(12,4,8)");
+        EvalExEngineUtils e = new EvalExEngineUtils("SQRT((2 * average(12,4,8))/4*100/20) + average(12,4,8)^2");
         e.addFunction(new EvalExFunction("average", 3) {
             public BigDecimal eval(List<BigDecimal> parameters) {
                  BigDecimal sum = parameters.get(0).add(parameters.get(1)).add(parameters.get(2));
@@ -100,6 +97,18 @@ class EvalExEngineUtilsTest {
         BigDecimal result = e.eval();
 
         System.out.println(result);
-        assertEquals(result, BigDecimal.valueOf(16));
+        assertEquals(result, BigDecimal.valueOf(68.47214));
+    }
+
+    @Test
+    public void testDivideOnZero() {
+        ArithmeticException thrown = assertThrows(ArithmeticException.class,
+                () -> {
+                    EvalExEngineUtils e = new EvalExEngineUtils("100/0");
+                    BigDecimal result = e.eval();
+                    System.out.println(result);
+                });
+        assertNotNull(thrown);
+        assertTrue(thrown.getMessage().contains("Division by zero"));
     }
 }
